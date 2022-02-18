@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EFCore.UowRepository.Data;
+using EFCore.UowRepository.Data.Repositories;
 using EFCore.UowRepository.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,6 +36,8 @@ namespace EFCore.UowRepository
             });
 
             services.AddDbContext<ApplicationContext>(optionsBuilder => optionsBuilder.UseSqlServer("Server=DESKTOP-B76722G\\SQLEXPRESS; Database=UoW; User ID=developer; Password=dev*10; Integrated Security=True;"));
+
+            services.AddScoped<IDepartamentoRepository, DepartamentoRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -45,6 +48,8 @@ namespace EFCore.UowRepository
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EFCore.UowRepository v1"));
             }
+
+            InicializarBaseDeDados(app);
 
             app.UseHttpsRedirection();
 
