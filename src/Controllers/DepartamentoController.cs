@@ -30,5 +30,14 @@ namespace EFCore.UowRepository.Controllers
 
             return Ok(departamento);
         }
+
+        [HttpPost]
+        public IActionResult CreateDepartamento(Departamento departamento)
+        {
+            _departamentoRepository.Add(departamento);
+            bool _saved = _departamentoRepository.Save();
+
+            return Ok(departamento);
+        }
     }
 }
