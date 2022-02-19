@@ -6,6 +6,7 @@ using EFCore.UowRepository.Data;
 using EFCore.UowRepository.Data.Repositories;
 using EFCore.UowRepository.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace EFCore.UowRepository.Controllers
@@ -59,6 +60,14 @@ namespace EFCore.UowRepository.Controllers
             _uow.Commit();
 
             return Ok(departamento);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConsultarDepartamentoAsync([FromQuery] string descricao)
+        {
+            var departamentos = await _uow.DepartamentoRepository.GetDataAsync(p => p.Descricao.Contains(descricao), p => p.Include(c => c.Colaboradores), take: 2);
+
+            return Ok(departamentos);
         }
     }
 }
