@@ -33,9 +33,9 @@ namespace EFCore.UowRepository.Controllers
         {
             //var departamento = await repository.GetByIdAsync(id);
             //var departamento = await _departamentoRepository.GetByIdAsync(id);
-            var departamento = await _uow.DepartamentoRepository.GetByIdAsync(id);
+            Departamento _departamento = await _uow.DepartamentoRepository.GetByIdAsync(id);
 
-            return Ok(departamento);
+            return Ok(_departamento);
         }
 
         [HttpPost]
@@ -53,21 +53,23 @@ namespace EFCore.UowRepository.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> RemoveDepartamentoAsync(int id)
         {
-            var departamento = await _uow.DepartamentoRepository.GetByIdAsync(id);
+            Departamento _departamento = await _uow.DepartamentoRepository.GetByIdAsync(id);
 
-            _uow.DepartamentoRepository.Remove(departamento);
+            _uow.DepartamentoRepository.Remove(_departamento);
 
             _uow.Commit();
 
-            return Ok(departamento);
+            return Ok(_departamento);
         }
 
         [HttpGet]
         public async Task<IActionResult> ConsultarDepartamentoAsync([FromQuery] string descricao)
         {
-            var departamentos = await _uow.DepartamentoRepository.GetDataAsync(p => p.Descricao.Contains(descricao), p => p.Include(c => c.Colaboradores), take: 2);
+            List<Departamento> _departamentos = await _uow.DepartamentoRepository.GetDataAsync(expression: departamento => departamento.Descricao.Contains(descricao), 
+                                                                                               include: departamento => departamento.Include(c => c.Colaboradores), 
+                                                                                               take: 2);
 
-            return Ok(departamentos);
+            return Ok(_departamentos);
         }
     }
 }
