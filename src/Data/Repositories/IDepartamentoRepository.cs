@@ -10,6 +10,6 @@ namespace EFCore.UowRepository.Data.Repositories
     {
         Task<Departamento> GetByIdAsync(int id);
         void Add(Departamento departamento);
-        bool Save();
+        //bool Save();
     }
 }
