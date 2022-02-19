@@ -48,5 +48,17 @@ namespace EFCore.UowRepository.Controllers
 
             return Ok(departamento);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveDepartamentoAsync(int id)
+        {
+            var departamento = await _uow.DepartamentoRepository.GetByIdAsync(id);
+
+            _uow.DepartamentoRepository.Remove(departamento);
+
+            _uow.Commit();
+
+            return Ok(departamento);
+        }
     }
 }
