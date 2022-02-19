@@ -42,6 +42,7 @@ namespace EFCore.UowRepository
 
             services.AddDbContext<ApplicationContext>(optionsBuilder => optionsBuilder.UseSqlServer("Server=DESKTOP-B76722G\\SQLEXPRESS; Database=UoW; User ID=developer; Password=dev*10; Integrated Security=True;"));
 
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IDepartamentoRepository, DepartamentoRepository>();
         }
 
